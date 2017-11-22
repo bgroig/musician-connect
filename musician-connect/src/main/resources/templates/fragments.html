@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:fragment="head">
+    <meta charset="UTF-8"/>
+    <title th:text="${title}"><h1>Musician Connect</h1></title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <link rel="javascript" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cyborg/bootstrap.min.css" />
+
+
+</head>
+<body>
+
+<nav th:fragment="navigation">
+    <a href="/musician">Home</a><p></p>
+    <a href="/musician/add">Create an Account</a><p></p>
+    <a href="/musician/login">Login</a> |
+    <a href="/musician">Logout</a>
+
+</nav>
+
+</body>
+</html>
