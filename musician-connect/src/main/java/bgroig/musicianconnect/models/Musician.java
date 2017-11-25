@@ -1,11 +1,11 @@
 package bgroig.musicianconnect.models;
 
 import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 /**
  * Created by bgroig on 7/4/2017.
@@ -26,23 +26,17 @@ public class Musician {
     @NotNull
     private String password;
 
-    private String instrument;
-
-    private String description;
-
-    private String location;
-
+    @NotNull
+    private Profile profile;
 
     public Musician() { }
 
     public Musician(String username, String email, String password,
-                    String instrument, String description, String location) {
+                    Profile profile) {
         this.username = username;
         this.email = email;
         this.password = password;
-        this.instrument = instrument;
-        this.description = description;
-        this.location = location;
+        this.profile = profile;
 
     }
 
@@ -74,27 +68,13 @@ public class Musician {
         this.password = password;
     }
 
-    public String getInstrument() {
-        return instrument;
+    public Profile getProfile() {
+        return profile;
     }
 
-    public void setInstrument(String instrument) {
-        this.instrument = instrument;
+    public void setProfile(Profile profile) {
+        this.profile = profile;
     }
 
-    public String getDescription() {
-        return description;
-    }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
 }

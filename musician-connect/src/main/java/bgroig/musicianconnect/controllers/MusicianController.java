@@ -1,6 +1,7 @@
 package bgroig.musicianconnect.controllers;
 
 import bgroig.musicianconnect.models.Musician;
+import bgroig.musicianconnect.models.Profile;
 import bgroig.musicianconnect.models.data.MusicianDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,6 +20,7 @@ public class MusicianController {
 
     @Autowired
     private MusicianDao musicianDao;
+
 
     @RequestMapping (value = "")
     public String index (Model model) {
@@ -40,25 +42,34 @@ public class MusicianController {
                       Errors errors, String verify,
                       Model model) {
 
-        model.addAttribute("musician", musician);
-        return "redirect:/musician/profile/";
+        model.addAttribute("username", musician.getUsername());
+        model.addAttribute("email", musician.getEmail());
+        model.addAttribute("password", musician.getPassword());
+
+        musicianDao.save(musician);
+
+        return "redirect:/musician/profile";
     }
 
-    @RequestMapping(value = "profile", method = RequestMethod.GET)
-    public String profile(Model model, Musician musician) {
-
-
-        model.addAttribute("title", "Profile");
+    @RequestMapping(value = "profile/{musician.profile}", method = RequestMethod.GET)
+    public String profile(Model model){
+        model.addAttribute(new Profile());
+        model.addAttribute("title", "Create Your Profile");
         return "musician/profile";
     }
 
     @RequestMapping(value = "profile", method = RequestMethod.POST)
-    public String profile(@ModelAttribute @Valid Musician musician,
-                         Errors errors, Model model) {
+    public String profile(@ModelAttribute @Valid
+                          Musician musician, Profile profile,
+                          Errors errors, String verify, Model model) {
 
-        musicianDao.save(musician);
-        return "redirect:";
+        model.addAttribute("instrument", profile.getInstrument());
+        model.addAttribute("description", profile.getDescription());
+        model.addAttribute("location", profile.getLocation());
 
+        musicianDao.save(musician.getProfile());
+
+        return "redirect:/musician" + musician.getId();
     }
 
     @RequestMapping (value = "login", method = RequestMethod.GET)
@@ -75,7 +86,7 @@ public class MusicianController {
                          Errors errors, Model model) {
 
         musicianDao.findOne(musician.getId());
-        return "redirect:/musician/profile/" + musician.getId();
+        return "redirect:/musician" + musician.getId();
 
 
     }
