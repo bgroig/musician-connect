@@ -1,7 +1,6 @@
 package bgroig.musicianconnect.controllers;
 
 import bgroig.musicianconnect.models.Musician;
-import bgroig.musicianconnect.models.Profile;
 import bgroig.musicianconnect.models.data.MusicianDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.Id;
 import javax.validation.Valid;
 
 /**
@@ -45,31 +45,23 @@ public class MusicianController {
         model.addAttribute("username", musician.getUsername());
         model.addAttribute("email", musician.getEmail());
         model.addAttribute("password", musician.getPassword());
+        model.addAttribute("instruments", musician.getInstruments());
+        model.addAttribute("description", musician.getDescription());
+        model.addAttribute("location", musician.getLocation());
 
         musicianDao.save(musician);
 
-        return "redirect:/musician/profile";
+        return "redirect:/musician/profile/" + musician.getId();
     }
 
-    @RequestMapping(value = "profile/{musician.profile}", method = RequestMethod.GET)
-    public String profile(Model model){
-        model.addAttribute(new Profile());
-        model.addAttribute("title", "Create Your Profile");
+    @RequestMapping(value = "profile/{musicianId}", method = RequestMethod.GET)
+    public String profile(Model model, @PathVariable int musicianId){
+
+        Musician musician = musicianDao.findOne(musicianId);
+
+        model.addAttribute("musician", musician);
+        model.addAttribute("title", musician.getUsername() + "'s Profile");
         return "musician/profile";
-    }
-
-    @RequestMapping(value = "profile", method = RequestMethod.POST)
-    public String profile(@ModelAttribute @Valid
-                          Musician musician, Profile profile,
-                          Errors errors, String verify, Model model) {
-
-        model.addAttribute("instrument", profile.getInstrument());
-        model.addAttribute("description", profile.getDescription());
-        model.addAttribute("location", profile.getLocation());
-
-        musicianDao.save(musician.getProfile());
-
-        return "redirect:/musician" + musician.getId();
     }
 
     @RequestMapping (value = "login", method = RequestMethod.GET)
@@ -83,10 +75,30 @@ public class MusicianController {
 
     @RequestMapping (value = "login", method = RequestMethod.POST)
     public String login (@ModelAttribute @Valid Musician musician,
-                         Errors errors, Model model) {
+                         Errors errors, Model model, String verify) {
 
-        musicianDao.findOne(musician.getId());
-        return "redirect:/musician" + musician.getId();
+        model.addAttribute("musician", musician);
+        boolean passwordsMatch = true;
+
+        if (errors.hasErrors()) {
+            return "musician/login";
+        }
+
+        if (musician.getPassword() == null || verify == null
+                || !musician.getPassword().equals(verify)) {
+            passwordsMatch = false;
+            model.addAttribute("verifyError", "Passwords must match");
+        }
+
+        if (passwordsMatch) {
+            model.addAttribute("musician", musicianDao.findOne(musician.getId()));
+            return "redirect:/musician/profile/" + musician.getId();
+
+        }
+
+        return "musician/profile";
+
+
 
 
     }
