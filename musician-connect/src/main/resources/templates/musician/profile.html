@@ -6,25 +6,26 @@
 <h1 th:text="${title}">Default Title</h1>
 
 <nav th:replace="fragments :: navigation"></nav>
-
+    <a href="/musician/edit">Edit</a>
 
 <table class="table">
 
     <tr>
         <th>Instruments</th>
-        <th>Description</th>
+        <th>Styles of Music</th>
         <th>Location</th>
+        <th>Ability</th>
     </tr>
 
     <tr th:for="${musician}">
         <td th:text="${musician.instruments}"></td>
-        <td th:text="${musician.description}"></td>
+        <td th:text="${musician.musicStyles}"></td>
         <td th:text="${musician.location}"></td>
+        <td th:text="${musician.ability}"></td>
     </tr>
 
 </table>
 
-<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 
 </body>
 </html>

@@ -3,14 +3,19 @@ package bgroig.musicianconnect.models;
 import org.hibernate.validator.constraints.Email;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.jms.annotation.JmsListener;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by bgroig on 7/4/2017.
  */
+@Component
 @Entity
 public class Musician {
 
@@ -19,37 +24,31 @@ public class Musician {
     private int id;
 
     @NotNull
-    @Size(min=3, max=15)
     private String username;
 
-    @Email
-    private String email;
-
     @NotNull
-    @Size(min=3)
     private String password;
 
     private String instruments;
 
-    private String description;
+    private String musicStyles;
 
     private String location;
 
+    private String ability;
+
     public Musician() { }
 
-    public Musician(String username, String email, String password,
-                    String instruments, String description, String location) {
+    public Musician(String username, String password, String instruments, String musicStyles,
+                    String location, String ability) {
+
         this.username = username;
-        this.email = email;
         this.password = password;
         this.instruments = instruments;
-        this.description = description;
+        this.musicStyles = musicStyles;
         this.location = location;
+        this.ability = ability;
 
-    }
-
-    public int getId() {
-        return id;
     }
 
     public String getUsername() {
@@ -58,14 +57,6 @@ public class Musician {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getPassword() {
@@ -80,16 +71,20 @@ public class Musician {
         return instruments;
     }
 
+    public int getId() {
+        return id;
+    }
+
     public void setInstruments(String instruments) {
         this.instruments = instruments;
     }
 
-    public String getDescription() {
-        return description;
+    public String getMusicStyles() {
+        return musicStyles;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setMusicStyles(String musicStyles) {
+        this.musicStyles = musicStyles;
     }
 
     public String getLocation() {
@@ -99,4 +94,20 @@ public class Musician {
     public void setLocation(String location) {
         this.location = location;
     }
+
+    public String getAbility() {
+        return ability;
+    }
+
+    public void setAbility(String ability) {
+        this.ability = ability;
+    }
+
+    @JmsListener(destination = "mailbox", containerFactory = "myFactory")
+    public void receiveMessage(bgroig.musicianconnect.models.Email email) {
+        System.out.println("Received <" + email + ">");
+    }
+
 }
+
+
