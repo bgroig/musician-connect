@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head">
+</head>
+<body class="container">
+<h1 th:text="${title}">Default Title</h1>
+
+<nav th:replace="fragments :: navigation"></nav>
+
+<form method="post" style="..." th:object="${musician}">
+    <div class="form-group">
+        <label th:for="username">Username</label>
+        <input class="form-control" th:field="*{username}"  />
+        <span th:error="*{username}"></span>
+    </div>
+
+    <div class="form-group">
+        <label th:for="email">Email</label>
+        <input class="form-control" th:field="*{email}"  type="email" />
+        <span th:error="*{email}"></span>
+    </div>
+
+    <div class="form-group">
+        <label th:for="password">Password</label>
+        <input class="form-control" th:field="*{password}" type="password" />
+        <span th:error="*{password}"></span>
+    </div>
+
+    <div class="form-group">
+        <label th:for="verify">Verify Password</label>
+        <input class="form-control" type="password" />
+        <span th:error="*{verifyError}" class="error"></span>
+    </div>
+
+    <div class="form-group"></div>
+    <input type="submit" value="Register" />
+
+    <img src="https://s-media-cache-ak0.pinimg.com/236x/e1/b0/a6/e1b0a68855c677374ba0da5bc48b6254--gangster-party-speakeasy-party.jpg" alt="party.jpg" />
+
+</form>
+
+</body>
+</html>

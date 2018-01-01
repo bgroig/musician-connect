@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head">
+</head>
+<body class="container">
+<h1 th:text="${title}">Default Title</h1>
+
+<nav th:replace="fragments :: navigation"></nav>
+
+<h2 th:text="${'Welcome to Musician Connect ' + musician.username + '!'}"></h2>
+<h2>Now it's time to create your profile.</h2>
+
+<p><img src="https://static.vecteezy.com/system/resources/previews/000/079/501/non_2x/vector-rock-band-silhouettes-graphics.jpg" alt="graphics.jpg" /></p>
+
+<a href="/profile/create"><input type="submit" value="Create Profile" /></a>
+
+</body>
+</html>

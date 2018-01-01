@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head th:replace="fragments :: head">
+</head>
+<body class="container">
+<h1 text="title">Musician Connect</h1>
+
+<nav th:replace="fragments :: navigation"></nav>
+
+<h1 th:inline="text">Welcome to Musician Connect [[${#httpServletRequest.remoteUser}]]!</h1>
+
+<p><a href="'/musician/profile/' + ${musicianId}">Profile</a></p>
+
+<form th:action="@{/logout}" method="post">
+    <input type="submit" value="Sign Out"/>
+</form>
+</body>
+</html>
