@@ -5,14 +5,14 @@
 <body class="container">
 <h1 th:text="${title}">Default Title</h1>
 <nav th:replace="fragments :: navigation"></nav>
+<a href="/musician/addProfile">Create an Account</a><p></p>
+<a href="/login">Login</a><p></p>
+<a th:href="'/musician/profile/' + ${musician.username}">Profile</a>
+
 <h2>A place to connect with local musicians in your area.</h2>
 
-<a href="/musician/profile/">Profile</a>
 
 <img src="http://mkenyaujerumani.de/wp-content/uploads/2013/06/bands.jpg" alt="bands.jpg" />
-
-
-
 
 </body>
 </html>
